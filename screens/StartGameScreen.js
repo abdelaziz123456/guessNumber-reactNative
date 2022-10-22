@@ -13,7 +13,7 @@ import Card from "../components/Card";
 import Input from "../components/Input";
 import colors from "../constants/colors";
 
-export default function StartGameScreen() {
+export default function StartGameScreen(props) {
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNum, setSelectedNumber] = useState();
@@ -28,6 +28,7 @@ export default function StartGameScreen() {
 
   function confirmInput() {
     const chosenNumber = parseInt(enteredValue);
+  
     if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
       Alert.alert("Invalid Number", "Number should be  0 < N < 100 ", [
         { text: "Okay", style: "destructive", onPress: resetInput },
@@ -36,6 +37,7 @@ export default function StartGameScreen() {
     setConfirmed(true);
     setSelectedNumber(chosenNumber);
     setEnteredValue("");
+    Keyboard.dismiss()
   }
   return (
     <TouchableWithoutFeedback
@@ -85,7 +87,7 @@ export default function StartGameScreen() {
               </Text>
             </View>
 
-            <Button title='Start Game' color={colors.primary} />
+            <Button title='Start Game' color={colors.primary} onPress={()=>props.setPage(2)} />
 
             
           </Card>
