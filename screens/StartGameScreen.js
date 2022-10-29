@@ -9,8 +9,10 @@ import {
   Keyboard,
   Alert,
 } from "react-native";
+import BodyText from "../components/BodyText";
 import Card from "../components/Card";
 import Input from "../components/Input";
+import TitleText from "../components/TitleText";
 import colors from "../constants/colors";
 
 export default function StartGameScreen(props) {
@@ -46,10 +48,10 @@ export default function StartGameScreen(props) {
       }}
     >
       <View style={styles.screen}>
-        <Text style={styles.title}>Start a New Game ! </Text>
+        <TitleText>Start a New Game !</TitleText>
 
         <Card style={styles.inputContainer}>
-          <Text>Select A Number</Text>
+          <BodyText>Select A Number</BodyText>
           <Input
             blurOnSubmit
             autoCapitalize="none"
@@ -105,11 +107,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
   },
-  title: {
-    fontSize: 20,
-    marginVertical: 10,
-    fontFamily:'open-sans-bold'
-  },
+ 
   buttonContainer: {
     flexDirection: "row",
     width: "100%",
@@ -137,4 +135,5 @@ const styles = StyleSheet.create({
     padding:8,
     borderRadius:9
   },
+
 });

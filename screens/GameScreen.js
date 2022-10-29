@@ -2,7 +2,7 @@ import { useState ,useRef, useEffect} from "react";
 import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import Card from "../components/Card";
 import colors from "../constants/colors";
-
+import defaultStyles from "../constants/default-styles";
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -47,7 +47,7 @@ const [rounds,setRounds]=useState(0)
   return (
     <View style={{justifyContent:'center' ,alignItems:'center',marginVertical:10}}>
     <Card style={styles.inputContainer}>
-      <Text>Opponent's Guess</Text>
+      <Text style={defaultStyles.titleText}>Opponent's Guess</Text>
       <View style={styles.numContainer}>
         <Text style={{ textAlign: "center", color: colors.accent }}>
           {currentGuess}
