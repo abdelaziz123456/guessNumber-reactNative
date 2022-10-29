@@ -87,7 +87,7 @@ export default function StartGameScreen(props) {
               </Text>
             </View>
 
-            <Button title='Start Game' color={colors.primary} onPress={()=>props.setPage(2)} />
+            <Button title='Start Game' color={colors.primary} onPress={()=>props.onStartGame(selectedNum)} />
 
             
           </Card>
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     marginVertical: 10,
+    fontFamily:'open-sans-bold'
   },
   buttonContainer: {
     flexDirection: "row",
