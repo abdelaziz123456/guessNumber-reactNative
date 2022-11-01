@@ -12,6 +12,7 @@ import {
 import BodyText from "../components/BodyText";
 import Card from "../components/Card";
 import Input from "../components/Input";
+import MainButton from "../components/MainButton";
 import TitleText from "../components/TitleText";
 import colors from "../constants/colors";
 
@@ -82,16 +83,18 @@ export default function StartGameScreen(props) {
         {/* mssage fof chosen number */}
         {confirmed ? (
           <Card style={styles.chosenNumber}>
-            <Text style={{ textAlign: "center" }}>You Selected</Text>
+            <BodyText>You Selected</BodyText>
             <View style={styles.numContainer}>
               <Text style={{ textAlign: "center", color: colors.accent }}>
                 {selectedNum}
               </Text>
             </View>
 
-            <Button title='Start Game' color={colors.primary} onPress={()=>props.onStartGame(selectedNum)} />
-
             
+
+            <MainButton onPress={()=>props.onStartGame(selectedNum)}>
+            Start Game
+            </MainButton>
           </Card>
         ) : (
           <></>

@@ -1,8 +1,10 @@
 import { useState ,useRef, useEffect} from "react";
 import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import Card from "../components/Card";
+import MainButton from "../components/MainButton";
 import colors from "../constants/colors";
 import defaultStyles from "../constants/default-styles";
+import {Ionicons} from '@expo/vector-icons'
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -54,12 +56,11 @@ const [rounds,setRounds]=useState(0)
         </Text>
       </View>
       <View style={styles.buttonContainer}>
-        <View style={styles.button}>
-          <Button title="Lower" color={colors.accent} onPress={nextGuessHandler.bind(this,'lower')}  />
-        </View>
-        <View style={styles.button}>
-          <Button title="Greater" color={colors.primary} onPress={nextGuessHandler.bind(this,'greater')} />
-        </View>
+       
+        <MainButton onPress={nextGuessHandler.bind(this,'lower')}>
+          <Ionicons name='md-remove' size={24} color='white'/>
+        </MainButton>
+        <MainButton onPress={nextGuessHandler.bind(this,'greater')}><Ionicons name='md-add' size={24} color='white'/></MainButton>
       </View>
     </Card>
     </View>
