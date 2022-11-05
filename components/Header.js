@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View,Platform } from 'react-native'
 import colors from '../constants/colors'
 export default function Header(props) {
   return (
@@ -15,7 +15,7 @@ header:{
     width:'100%',
     height:80,
     paddingTop:20,
-    backgroundColor:colors.primary,
+    backgroundColor:Platform.OS == '' ?  colors.primary : 'white',
     alignItems:'center',
     justifyContent:'center'
 },

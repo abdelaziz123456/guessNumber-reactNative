@@ -7,6 +7,8 @@ import {
   Alert,
   ScrollView,
   FlatList,
+  Dimensions,
+  SafeAreaView
 } from "react-native";
 import Card from "../components/Card";
 import MainButton from "../components/MainButton";
@@ -30,8 +32,20 @@ export default function GameScreen(props) {
   const [pastGuesses, setPastGuesses] = useState([{key:'1',guessValue:initialGuess.toString()}]);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
+  const [deviceHeight,setDeviceHeight]=useState(Dimensions.get('window').height)
 
   const { userChoice, onGameOver } = props;
+
+
+  useEffect(()=>{
+    const updateLayout=()=>{
+      setDeviceHeight(Dimensions.get('window').height)
+    }
+    Dimensions.addEventListener('change',updateLayout)
+    return ()=>{
+      Dimensions.removeEventListener('change',updateLayout)
+    }
+  })
   useEffect(() => {
     if (currentGuess == props.userChoice) {
       props.onGameOver(pastGuesses.length);
@@ -63,7 +77,13 @@ export default function GameScreen(props) {
 
     setPastGuesses([ ...pastGuesses,{key:(pastGuesses.length+1).toString(),guessValue:nextNum.toString()}]);
   };
+
+
+  if(Dimensions.get('window').height <500){
+
+  console.log('landscape')
   return (
+    <SafeAreaView>
     <View
       style={{
        justifyContent: "center",
@@ -73,15 +93,16 @@ export default function GameScreen(props) {
     >
       <Card style={styles.inputContainer}>
         <Text style={defaultStyles.titleText}>Opponent's Guess</Text>
-        <View style={styles.numContainer}>
-          <Text style={{ textAlign: "center", color: colors.accent }}>
-            {currentGuess}
-          </Text>
-        </View>
+        
         <View style={styles.buttonContainer}>
           <MainButton onPress={nextGuessHandler.bind(this, "lower")}>
             <Ionicons name="md-remove" size={24} color="white" />
           </MainButton>
+          <View style={{...styles.numContainer,width:50}}>
+          <Text style={{ textAlign: "center", color: colors.accent,fontSize:20 }}>
+            {currentGuess}
+          </Text>
+        </View>
           <MainButton onPress={nextGuessHandler.bind(this, "greater")}>
             <Ionicons name="md-add" size={24} color="white" />
           </MainButton>
@@ -98,7 +119,45 @@ export default function GameScreen(props) {
         
         )}  />
     </View>
+    </SafeAreaView>
   );
+}else{
+  console.log('portrait')
+  return (<View
+  style={{
+   justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 10,
+  }}
+>
+  <Card style={styles.inputContainer}>
+    <Text style={defaultStyles.titleText}>Opponent's Guess</Text>
+    <View style={styles.numContainer}>
+      <Text style={{ textAlign: "center", color: colors.accent }}>
+        {currentGuess}
+      </Text>
+    </View>
+    <View style={styles.buttonContainer}>
+      <MainButton onPress={nextGuessHandler.bind(this, "lower")}>
+        <Ionicons name="md-remove" size={24} color="white" />
+      </MainButton>
+      <MainButton onPress={nextGuessHandler.bind(this, "greater")}>
+        <Ionicons name="md-add" size={24} color="white" />
+      </MainButton>
+    </View>
+  </Card>
+
+
+  <FlatList contentContainerStyle={{alignItems:"center",paddingBottom:150}} data={pastGuesses} renderItem={({item})=>(
+      <View key={item.key} style={styles.listItem}>
+        <BodyText>#{item.key}</BodyText>
+        <BodyText>{item.guessValue}</BodyText>
+      </View>
+  
+    
+    )}  />
+</View>)
+}
 }
 
 let styles = StyleSheet.create({
@@ -112,8 +171,10 @@ let styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     width: "100%",
+    alignItems:'center',
     justifyContent: "space-between",
     paddingHorizontal: 15,
+    marginTop:Dimensions.get('window').height >580 ? 20 :5  
   },
   inputContainer: {
     width: 300,
@@ -128,6 +189,6 @@ let styles = StyleSheet.create({
     marginVertical:10,
     backgroundColor:'white',
     justifyContent:'space-around',
-    width:'60%'
+    width:Dimensions.get('window').width>350 ? '60%' : '80%'
   }
 });

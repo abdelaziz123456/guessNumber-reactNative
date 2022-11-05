@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -8,6 +8,10 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  Dimensions,
+  ScrollView,
+  KeyboardAvoidingView,
+  SafeAreaView
 } from "react-native";
 import BodyText from "../components/BodyText";
 import Card from "../components/Card";
@@ -20,6 +24,17 @@ export default function StartGameScreen(props) {
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNum, setSelectedNumber] = useState();
+
+  const [buttonWidth,setButtonWidth]=useState(Dimensions.get('window').width/4);
+
+  const updateLayout=()=>{
+    
+   setButtonWidth(Dimensions.get('window').width/4);
+ 
+  }
+
+
+  Dimensions.addEventListener('change',updateLayout)
   function inputHandler(inputText) {
     setEnteredValue(inputText.replace(/[^0-9]/g, ""));
   }
@@ -43,6 +58,9 @@ export default function StartGameScreen(props) {
     Keyboard.dismiss()
   }
   return (
+    <SafeAreaView>
+    <ScrollView>
+      <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={20}>
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
@@ -64,14 +82,14 @@ export default function StartGameScreen(props) {
             onChangeText={inputHandler}
           />
           <View style={styles.buttonContainer}>
-            <View style={styles.button}>
+            <View style={{minWidth:buttonWidth}}>
               <Button
                 title="Reset"
                 onPress={resetInput}
                 color={colors.accent}
               />
             </View>
-            <View style={styles.button}>
+            <View style={{minWidth:buttonWidth}}>
               <Button
                 title="Confirm"
                 onPress={confirmInput}
@@ -101,6 +119,9 @@ export default function StartGameScreen(props) {
         )}
       </View>
     </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+    </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -118,13 +139,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   inputContainer: {
-    width: 300,
-    maxWidth: "80%",
+    minWidth: 300,
+    width: "80%",
+    maxWidth:'95%',
     alignItems: "center",
   },
-  button: {
-    width: 80,
-  },
+
   input: {
     textAlign: "center",
   },
